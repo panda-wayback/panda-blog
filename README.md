@@ -56,15 +56,14 @@ cp .env.example .env
 | `PROJECT_NAME` | 仓库名 |
 | `GIT_USER` | HTTPS 推送用的 GitHub 用户名 |
 
-`make deploy` 会读取 `.env`，构建站点，并把 `build/` 推送到 `gh-pages` 分支。GitHub 仓库的 Pages 发布来源选这个分支。
+`make deploy` 会读取 `.env`，构建站点，并用 SSH 把 `build/` 推送到 `gh-pages` 分支。仓库里还没有这个分支时，会先建一个带占位文件的分支。GitHub 仓库的 Pages 发布来源选这个分支。
 
 ```bash
 make deploy
 ```
 
-改用 SSH，或推到别的分支：
+要推到别的分支：
 
 ```bash
-USE_SSH=true make deploy
 DEPLOYMENT_BRANCH=<branch> make deploy
 ```

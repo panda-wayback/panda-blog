@@ -37,4 +37,12 @@ version:
 	npm run docs:version -- $(VERSION)
 
 deploy:
-	npm run deploy
+	@branch="$${DEPLOYMENT_BRANCH:-gh-pages}"; \
+	if ! git ls-remote --exit-code --heads origin "$$branch" >/dev/null 2>&1; then \
+		echo "creating $$branch"; \
+		blob=$$(printf 'placeholder\n' | git hash-object -w --stdin); \
+		tree=$$(printf '100644 blob %s\tREADME.md\n' "$$blob" | git mktree); \
+		commit=$$(git commit-tree "$$tree" -m "Initial $$branch"); \
+		git push origin "$${commit}:refs/heads/$$branch"; \
+	fi
+	USE_SSH=$${USE_SSH:-true} npm run deploy
