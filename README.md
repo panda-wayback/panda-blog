@@ -4,7 +4,7 @@ This website is built using [Docusaurus](https://docusaurus.io/), a modern stati
 
 ## Write docs (usual workflow)
 
-Everything lives under `docs/`. There is no separate blog. You do **not** need to touch `docusaurus.config.ts` to add sections or pages.
+Everything lives under `docs/`. Global defaults are in `docsDefaults.ts`. You do **not** need to touch config for normal writing.
 
 ```text
 docs/
@@ -12,13 +12,11 @@ docs/
     intro.mdx
     ...
   guides/            → top navbar "Guides"
-    writing-docs.mdx
-  my-new-section/    → add a folder → new navbar item
-    _nav.json        → optional: { "label": "...", "position": 3 }
+  my-new-section/    → new folder → new navbar item
     page.mdx
 ```
 
-Nested folders become the sidebar. Publish a version snapshot with:
+Optional overrides only when special: `_nav.json` (top bar), `_category_.json` (sidebar folder). Publish a version with:
 
 ```bash
 npm run docs:version 1.0.0

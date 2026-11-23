@@ -1,7 +1,12 @@
 import {themes as prismThemes} from 'prism-react-renderer';
 import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
-import {buildFooterDocItems, buildNavbarDocItems} from './docsSections';
+import {docsDefaults} from './docsDefaults';
+import {
+  buildFooterDocItems,
+  buildNavbarDocItems,
+  sidebarItemsGenerator,
+} from './docsSections';
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
@@ -33,7 +38,14 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
-          includeCurrentVersion: true,
+          sidebarItemsGenerator,
+          breadcrumbs: docsDefaults.plugin.breadcrumbs,
+          showLastUpdateTime: docsDefaults.plugin.showLastUpdateTime,
+          showLastUpdateAuthor: docsDefaults.plugin.showLastUpdateAuthor,
+          includeCurrentVersion: docsDefaults.plugin.includeCurrentVersion,
+          ...(docsDefaults.plugin.editUrl
+            ? {editUrl: docsDefaults.plugin.editUrl}
+            : {}),
         },
         blog: false,
         theme: {
@@ -43,11 +55,22 @@ const config: Config = {
     ],
   ],
 
+  themes: [
+    [
+      require.resolve('@easyops-cn/docusaurus-search-local'),
+      {
+        ...docsDefaults.search,
+      },
+    ],
+  ],
+
   themeConfig: {
     image: 'img/docusaurus-social-card.jpg',
     colorMode: {
       respectPrefersColorScheme: true,
     },
+    docs: docsDefaults.themeDocs,
+    tableOfContents: docsDefaults.tableOfContents,
     navbar: {
       title: 'My Site',
       logo: {
@@ -75,6 +98,7 @@ const config: Config = {
     prism: {
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,
+      additionalLanguages: [...docsDefaults.prismLanguages],
     },
   } satisfies Preset.ThemeConfig,
 };

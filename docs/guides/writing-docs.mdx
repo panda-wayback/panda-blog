@@ -4,38 +4,22 @@ sidebar_position: 1
 
 # Writing docs
 
-This site treats **first-level folders under `docs/`** as top navbar sections.
+日常只写 `docs/` 里的 Markdown / MDX。全局行为集中在 `docsDefaults.ts`。
 
-## Add a navbar section
+## 默认行为
 
-1. Create a folder: `docs/my-section/`
-2. Optional: add `docs/my-section/_nav.json` to set the label and order:
+| 你做什么 | 自动得到 |
+|---------|---------|
+| 新建 `docs/my-section/` | 顶栏多一个分栏 |
+| 在分栏下新建子文件夹 | 侧边栏分类（标题美化、默认可折叠） |
+| 放入 `.md` / `.mdx` | 侧边栏出现；面包屑、目录、上次更新时间 |
+| `npm run docs:version 1.0.0` | 版本历史 + 顶栏版本下拉 |
 
-```json
-{
-  "label": "My Section",
-  "position": 3
-}
-```
+## 什么时候才要额外文件
 
-3. Add Markdown / MDX files inside that folder
-4. Restart `npm start` (or rebuild) — the top bar picks up the new section automatically
+只有「和默认不一样」时才加：
 
-## Organize pages
-
-Nested folders become sidebar categories. Use `_category_.json` for labels and order:
-
-```json
-{
-  "label": "Getting started",
-  "position": 1
-}
-```
-
-## Publish a version
-
-```bash
-npm run docs:version 1.0.0
-```
-
-That snapshots the current `docs/` into version history. The navbar version dropdown lets readers switch versions.
+- **顶栏文案 / 顺序**：`docs/<section>/_nav.json`
+- **某个分类**：该目录 `_category_.json`
+- **单页**：front matter（`sidebar_position`、`sidebar_label`）
+- **改全局体验**：只改 `docsDefaults.ts`（别散改 `docusaurus.config.ts`）
