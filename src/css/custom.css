@@ -4,6 +4,10 @@
  * work well for content-centric websites.
  */
 
+/* Local KaTeX (CDN + integrity often fails → MathML/HTML both show, e.g. O(f)O(f)) */
+@import 'katex/dist/katex.min.css';
+
+
 /* You can override the default Infima variables here. */
 :root {
   --ifm-color-primary: #2e8555;

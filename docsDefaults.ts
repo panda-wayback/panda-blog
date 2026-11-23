@@ -66,6 +66,8 @@ export const docsDefaults = {
     'diff',
     'yaml',
     'markdown',
+    'cpp',
+    'python',
   ],
 
   /**
