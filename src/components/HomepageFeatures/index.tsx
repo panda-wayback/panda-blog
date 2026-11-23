@@ -1,68 +1,51 @@
 import type {ReactNode} from 'react';
-import clsx from 'clsx';
+import Link from '@docusaurus/Link';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Heading from '@theme/Heading';
 import styles from './styles.module.css';
 
-type FeatureItem = {
-  title: string;
-  Svg: React.ComponentType<React.ComponentProps<'svg'>>;
-  description: ReactNode;
+type HomeSection = {
+  id: string;
+  label: string;
+  to: string;
+  description: string;
 };
 
-const FeatureList: FeatureItem[] = [
-  {
-    title: 'Easy to Use',
-    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
-    description: (
-      <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
-      </>
-    ),
-  },
-  {
-    title: 'Focus on What Matters',
-    Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
-    description: (
-      <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
-      </>
-    ),
-  },
-  {
-    title: 'Powered by React',
-    Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
-    description: (
-      <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
-      </>
-    ),
-  },
-];
-
-function Feature({title, Svg, description}: FeatureItem) {
-  return (
-    <div className={clsx('col col--4')}>
-      <div className="text--center">
-        <Svg className={styles.featureSvg} role="img" />
-      </div>
-      <div className="text--center padding-horiz--md">
-        <Heading as="h3">{title}</Heading>
-        <p>{description}</p>
-      </div>
-    </div>
+function readSections(value: unknown): HomeSection[] {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+  return value.filter(
+    (item): item is HomeSection =>
+      !!item &&
+      typeof item === 'object' &&
+      typeof item.id === 'string' &&
+      typeof item.label === 'string' &&
+      typeof item.to === 'string',
   );
 }
 
 export default function HomepageFeatures(): ReactNode {
+  const {siteConfig} = useDocusaurusContext();
+  const sections = readSections(siteConfig.customFields?.sections);
+
   return (
-    <section className={styles.features}>
+    <section className={styles.section}>
       <div className="container">
-        <div className="row">
-          {FeatureList.map((props, idx) => (
-            <Feature key={idx} {...props} />
+        <header className={styles.sectionHead}>
+          <Heading as="h2">栏目</Heading>
+        </header>
+        <div className={styles.grid}>
+          {sections.map((section) => (
+            <Link key={section.id} className={styles.card} to={section.to}>
+              <Heading as="h3" className={styles.cardTitle}>
+                {section.label}
+              </Heading>
+              {section.description ? (
+                <p className={styles.cardText}>{section.description}</p>
+              ) : null}
+              <span className={styles.enter}>进入</span>
+            </Link>
           ))}
         </div>
       </div>

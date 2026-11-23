@@ -6,15 +6,19 @@ import rehypeKatex from 'rehype-katex';
 import {docsDefaults} from './docsDefaults';
 import {
   buildFooterDocItems,
+  buildHomeSections,
   buildNavbarDocItems,
   sidebarItemsGenerator,
 } from './docsSections';
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
+const siteTitle = '笔记';
+const siteTagline = '按栏目阅读。';
+
 const config: Config = {
-  title: 'My Site',
-  tagline: 'Dinosaurs are cool',
+  title: siteTitle,
+  tagline: siteTagline,
   favicon: 'img/favicon.ico',
 
   future: {
@@ -68,6 +72,10 @@ const config: Config = {
     ],
   ],
 
+  customFields: {
+    sections: buildHomeSections(),
+  },
+
   themeConfig: {
     image: 'img/docusaurus-social-card.jpg',
     colorMode: {
@@ -76,9 +84,9 @@ const config: Config = {
     docs: docsDefaults.themeDocs,
     tableOfContents: docsDefaults.tableOfContents,
     navbar: {
-      title: 'My Site',
+      title: siteTitle,
       logo: {
-        alt: 'My Site Logo',
+        alt: siteTitle,
         src: 'img/logo.svg',
       },
       items: [
@@ -93,11 +101,11 @@ const config: Config = {
       style: 'dark',
       links: [
         {
-          title: 'Docs',
+          title: '栏目',
           items: buildFooterDocItems(),
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+      copyright: `© ${new Date().getFullYear()} ${siteTitle}`,
     },
     prism: {
       theme: prismThemes.github,

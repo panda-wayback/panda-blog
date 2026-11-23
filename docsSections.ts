@@ -17,12 +17,21 @@ export type DocsSection = {
   dirName: string;
   sidebarId: string;
   label: string;
+  description: string;
   position: number;
+};
+
+export type HomeSection = {
+  id: string;
+  label: string;
+  to: string;
+  description: string;
 };
 
 type NavMeta = {
   label?: string;
   position?: number;
+  description?: string;
 };
 
 export function titleCase(slug: string): string {
@@ -40,7 +49,7 @@ function looksLikeFolderSlug(label: string): boolean {
 
 /**
  * First-level folders under docs/ become navbar sections.
- * Optional override: docs/<section>/_nav.json → { "label": "教程", "position": 1 }
+ * Optional override: docs/<section>/_nav.json → { "label": "教程", "position": 1, "description": "这一栏写什么" }
  */
 export function getDocsSections(
   docsDir = path.join(__dirname, 'docs'),
@@ -71,6 +80,7 @@ export function getDocsSections(
       dirName,
       sidebarId: `${dirName}Sidebar`,
       label: meta.label ?? titleCase(dirName),
+      description: meta.description ?? '',
       position: meta.position ?? Number.MAX_SAFE_INTEGER,
     });
   }
@@ -100,6 +110,15 @@ export function buildNavbarDocItems(sections = getDocsSections()) {
   }));
 }
 
+function docRelPath(absDir: string, fileName: string): string {
+  const slug = fileName.replace(/\.mdx?$/, '');
+  return path
+    .relative(path.join(__dirname, 'docs'), path.join(absDir, slug))
+    .split(path.sep)
+    .join('/');
+}
+
+/** Prefer a page in this folder, then the first page in a subfolder. */
 function findFirstDocRelPath(absDir: string): string | null {
   const entries = fs
     .readdirSync(absDir, {withFileTypes: true})
@@ -107,22 +126,41 @@ function findFirstDocRelPath(absDir: string): string | null {
     .sort((a, b) => a.name.localeCompare(b.name));
 
   for (const entry of entries) {
-    const absPath = path.join(absDir, entry.name);
     if (entry.isFile() && /\.mdx?$/.test(entry.name)) {
-      const slug = entry.name.replace(/\.mdx?$/, '');
-      return path
-        .relative(path.join(__dirname, 'docs'), path.join(absDir, slug))
-        .split(path.sep)
-        .join('/');
+      return docRelPath(absDir, entry.name);
     }
-    if (entry.isDirectory()) {
-      const nested = findFirstDocRelPath(absPath);
-      if (nested) {
-        return nested;
-      }
+  }
+
+  for (const entry of entries) {
+    if (!entry.isDirectory()) {
+      continue;
+    }
+    const nested = findFirstDocRelPath(path.join(absDir, entry.name));
+    if (nested) {
+      return nested;
     }
   }
   return null;
+}
+
+/** Homepage cards: one per top-level docs folder, same source as the navbar. */
+export function buildHomeSections(sections = getDocsSections()): HomeSection[] {
+  return sections.flatMap((section) => {
+    const firstDoc = findFirstDocRelPath(
+      path.join(__dirname, 'docs', section.dirName),
+    );
+    if (!firstDoc) {
+      return [];
+    }
+    return [
+      {
+        id: section.id,
+        label: section.label,
+        to: `/docs/${firstDoc}`,
+        description: section.description,
+      },
+    ];
+  });
 }
 
 /** Footer links derived from the same docs/ sections as the navbar. */

@@ -1,4 +1,5 @@
 {
   "label": "算法",
-  "position": 1
+  "position": 1,
+  "description": "概念、复杂度与数据范围。先基础和数据结构，再图论与动态规划。"
 }
