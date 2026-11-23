@@ -1,74 +1,70 @@
-# Website
+# 网站
 
-This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
+本站使用 [Docusaurus](https://docusaurus.io/) 构建。
 
-## Write docs (usual workflow)
+## 写文档
 
-Everything lives under `docs/`. Global defaults are in `docsDefaults.ts`. You do **not** need to touch config for normal writing.
+内容都在 `docs/` 下。全局默认在 `docsDefaults.ts`。平时写文档不用改配置。
 
 ```text
 docs/
-  tutorial/          → top navbar "Tutorial"
+  tutorial/          → 顶栏「Tutorial」
     intro.mdx
     ...
-  guides/            → top navbar "Guides"
-  my-new-section/    → new folder → new navbar item
+  guides/            → 顶栏「Guides」
+  my-new-section/    → 新建目录 → 顶栏多一项
     page.mdx
 ```
 
-Optional overrides only when special: `_nav.json` (top bar), `_category_.json` (sidebar folder). Publish a version with:
+只在需要特殊处理时覆盖：`_nav.json`（顶栏）、`_category_.json`（侧边栏目录）。发布一个版本文档：
 
 ```bash
 npm run docs:version 1.0.0
 ```
 
-## Installation
+## 安装
 
 ```bash
 npm install
 ```
 
-## Local Development
+## 本地开发
 
 ```bash
 npm run start
 ```
 
-## Build
+## 构建
 
 ```bash
 npm run build
 ```
 
-## Deployment
+## 部署
 
-`make deploy` builds the site and pushes `build/` to the `gh-pages` branch. It is the same command as `npm run deploy`.
+地址和仓库写在 `.env`，不改 `docusaurus.config.ts`。这个文件可以随仓库一起提交。没有它时，复制一份：
 
-Set these in `docusaurus.config.ts` before the first deploy. The values there are still the template placeholders.
+```bash
+cp .env.example .env
+```
 
-| Field | Value |
+| 变量 | 填什么 |
 | --- | --- |
-| `organizationName` | GitHub user or organization |
-| `projectName` | Repository name |
-| `url` | Public site URL, such as `https://<user>.github.io` |
-| `baseUrl` | `/` for a user site (`<user>.github.io`). `/<repo>/` for a project site |
+| `URL` | 站点地址，例如 `https://<user>.github.io` |
+| `BASE_URL` | 用户站填 `/`。项目站填 `/<repo>/`，开头和结尾都要有 `/` |
+| `ORGANIZATION_NAME` | GitHub 用户名或组织名 |
+| `PROJECT_NAME` | 仓库名 |
+| `GIT_USER` | HTTPS 推送用的 GitHub 用户名 |
 
-In the GitHub repository, set Pages to publish from the `gh-pages` branch.
+`make deploy` 会读取 `.env`，构建站点，并把 `build/` 推送到 `gh-pages` 分支。GitHub 仓库的 Pages 发布来源选这个分支。
 
-SSH, when this machine can already push to GitHub over SSH:
+```bash
+make deploy
+```
+
+改用 SSH，或推到别的分支：
 
 ```bash
 USE_SSH=true make deploy
-```
-
-HTTPS:
-
-```bash
-GIT_USER=<GitHub username> make deploy
-```
-
-Another branch, instead of `gh-pages`:
-
-```bash
-DEPLOYMENT_BRANCH=<branch> USE_SSH=true make deploy
+DEPLOYMENT_BRANCH=<branch> make deploy
 ```
