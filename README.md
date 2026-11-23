@@ -42,8 +42,33 @@ npm run build
 
 ## Deployment
 
+`make deploy` builds the site and pushes `build/` to the `gh-pages` branch. It is the same command as `npm run deploy`.
+
+Set these in `docusaurus.config.ts` before the first deploy. The values there are still the template placeholders.
+
+| Field | Value |
+| --- | --- |
+| `organizationName` | GitHub user or organization |
+| `projectName` | Repository name |
+| `url` | Public site URL, such as `https://<user>.github.io` |
+| `baseUrl` | `/` for a user site (`<user>.github.io`). `/<repo>/` for a project site |
+
+In the GitHub repository, set Pages to publish from the `gh-pages` branch.
+
+SSH, when this machine can already push to GitHub over SSH:
+
 ```bash
-USE_SSH=true npm run deploy
-# or
-GIT_USER=<Your GitHub username> npm run deploy
+USE_SSH=true make deploy
+```
+
+HTTPS:
+
+```bash
+GIT_USER=<GitHub username> make deploy
+```
+
+Another branch, instead of `gh-pages`:
+
+```bash
+DEPLOYMENT_BRANCH=<branch> USE_SSH=true make deploy
 ```
