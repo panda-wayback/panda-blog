@@ -1,0 +1,41 @@
+---
+sidebar_position: 1
+---
+
+# Writing docs
+
+This site treats **first-level folders under `docs/`** as top navbar sections.
+
+## Add a navbar section
+
+1. Create a folder: `docs/my-section/`
+2. Optional: add `docs/my-section/_nav.json` to set the label and order:
+
+```json
+{
+  "label": "My Section",
+  "position": 3
+}
+```
+
+3. Add Markdown / MDX files inside that folder
+4. Restart `npm start` (or rebuild) — the top bar picks up the new section automatically
+
+## Organize pages
+
+Nested folders become sidebar categories. Use `_category_.json` for labels and order:
+
+```json
+{
+  "label": "Getting started",
+  "position": 1
+}
+```
+
+## Publish a version
+
+```bash
+npm run docs:version 1.0.0
+```
+
+That snapshots the current `docs/` into version history. The navbar version dropdown lets readers switch versions.
