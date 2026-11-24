@@ -44,8 +44,8 @@ function envBool(name: string, fallback: boolean): boolean {
   throw new Error(`${name} 只能是 true 或 false`);
 }
 
-const siteTitle = '笔记';
-const siteTagline = '按栏目阅读。';
+const siteTitle = 'Panda blog';
+const siteTagline = 'A blog about pandas';
 
 const config: Config = {
   title: siteTitle,
