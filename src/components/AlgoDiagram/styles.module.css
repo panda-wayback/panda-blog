@@ -1,0 +1,436 @@
+.figure {
+  margin: 1rem 0 1.25rem;
+  padding: 0.85rem 1rem 1rem;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 6px;
+  background: var(--ifm-background-surface-color);
+}
+
+.caption {
+  margin: 0 0 0.85rem;
+  font-size: 0.9rem;
+  color: var(--ifm-color-emphasis-700);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.25rem;
+  align-items: flex-end;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 5.75rem;
+  padding: 0 0.35rem;
+}
+
+.step {
+  margin-bottom: 0.2rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--ifm-color-emphasis-600);
+}
+
+.title {
+  margin-bottom: 0.35rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.25;
+}
+
+.action {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 0.25rem;
+  min-height: 2.1rem;
+  justify-content: flex-end;
+  font-size: 0.75rem;
+  color: var(--ifm-color-emphasis-700);
+}
+
+.actionArrow {
+  font-size: 0.95rem;
+  line-height: 1;
+  color: var(--ifm-color-primary);
+}
+
+.actionPush .actionArrow {
+  /* 向下进入栈顶 */
+}
+
+.actionPop .actionArrow {
+  /* 向上离开栈顶 —— 用文字箭头区分 */
+}
+
+.body {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  gap: 0.35rem;
+}
+
+.rail {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0.15rem 0;
+  font-size: 0.7rem;
+  color: var(--ifm-color-emphasis-700);
+  line-height: 1;
+}
+
+.railTop,
+.railBottom {
+  white-space: nowrap;
+}
+
+.railTop {
+  font-weight: 600;
+  color: var(--ifm-color-primary);
+}
+
+.stackColumn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.3rem;
+}
+
+.stackEjected {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+}
+
+.stackEjectedCell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.6rem;
+  min-height: 1.9rem;
+  padding: 0.15rem 0.35rem;
+  border: 1px dashed var(--ifm-color-primary);
+  border-radius: 4px;
+  background: var(--ifm-color-emphasis-100);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--ifm-color-primary);
+}
+
+.stackEjectedHint {
+  font-size: 0.7rem;
+  color: var(--ifm-color-emphasis-700);
+  white-space: nowrap;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: stretch;
+  width: 3.6rem;
+  border: 1px solid var(--ifm-color-emphasis-400);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  background: var(--ifm-background-color);
+}
+
+.cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 1.9rem;
+  padding: 0.15rem 0.35rem;
+  border-top: 1px solid var(--ifm-color-emphasis-300);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.95rem;
+}
+
+.cell:last-child {
+  border-top: none;
+}
+
+.topCell {
+  background: var(--ifm-color-emphasis-100);
+  font-weight: 600;
+  box-shadow: inset 0 2px 0 var(--ifm-color-primary);
+}
+
+.hotCell {
+  outline: 2px solid var(--ifm-color-primary);
+  outline-offset: -2px;
+}
+
+.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.6rem;
+  min-height: 3.4rem;
+  border: 1px dashed var(--ifm-color-emphasis-400);
+  border-radius: 4px;
+  font-size: 0.8rem;
+  color: var(--ifm-color-emphasis-600);
+}
+
+.note {
+  margin-top: 0.4rem;
+  max-width: 6.5rem;
+  font-size: 0.78rem;
+  color: var(--ifm-color-emphasis-800);
+  text-align: center;
+  line-height: 1.35;
+}
+
+.noteEmph {
+  color: var(--ifm-color-primary);
+  font-weight: 600;
+}
+
+.connector {
+  display: flex;
+  align-items: center;
+  align-self: center;
+  padding: 0 0.15rem 1.6rem;
+  font-size: 1rem;
+  color: var(--ifm-color-emphasis-500);
+  user-select: none;
+}
+
+/* —— 数组 / 区间条 —— */
+
+.arrayPanel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+  min-width: min(100%, 22rem);
+  padding: 0.15rem 0.25rem;
+}
+
+.arrayTitle {
+  font-size: 0.88rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.arrayStrip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem;
+}
+
+.arrayCellWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+}
+
+.arrayCell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.1rem;
+  min-height: 2.1rem;
+  padding: 0.15rem 0.3rem;
+  border: 1px solid var(--ifm-color-emphasis-400);
+  border-radius: 4px;
+  background: var(--ifm-background-color);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.9rem;
+}
+
+.arrayCellDim {
+  opacity: 0.35;
+}
+
+.arrayCellHot {
+  background: var(--ifm-color-emphasis-100);
+  border-color: var(--ifm-color-primary);
+  font-weight: 600;
+  box-shadow: inset 0 2px 0 var(--ifm-color-primary);
+}
+
+.arrayCellMid {
+  outline: 2px solid var(--ifm-color-primary);
+  outline-offset: -1px;
+}
+
+.arrayIndex {
+  font-size: 0.68rem;
+  color: var(--ifm-color-emphasis-600);
+  font-variant-numeric: tabular-nums;
+}
+
+.arrayNote {
+  font-size: 0.8rem;
+  color: var(--ifm-color-emphasis-800);
+  line-height: 1.35;
+}
+
+.arrayNoteEmph {
+  color: var(--ifm-color-primary);
+  font-weight: 600;
+}
+
+/* —— 队列（队首 ← … → 队尾） —— */
+
+.queuePanel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 7.5rem;
+  padding: 0 0.35rem;
+}
+
+.queueActions {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 14rem;
+  min-height: 2.1rem;
+  margin-bottom: 0.25rem;
+  font-size: 0.75rem;
+  color: var(--ifm-color-emphasis-700);
+}
+
+.queueActionSide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+  min-width: 2.5rem;
+}
+
+.queueActionArrow {
+  font-size: 0.95rem;
+  line-height: 1;
+  color: var(--ifm-color-primary);
+}
+
+.queueBody {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.25rem;
+  width: 100%;
+  max-width: 16rem;
+}
+
+.queueTrack {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 2.2rem;
+}
+
+.queueEjected {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.2rem;
+  flex-shrink: 0;
+}
+
+.queueEjectedCell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  min-height: 2.2rem;
+  padding: 0.35rem 0.4rem;
+  border: 1px dashed var(--ifm-color-primary);
+  border-radius: 4px;
+  background: var(--ifm-color-emphasis-100);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--ifm-color-primary);
+}
+
+.queueEjectedHint {
+  font-size: 0.7rem;
+  color: var(--ifm-color-emphasis-700);
+  white-space: nowrap;
+}
+
+.queueMain {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.queueStrip {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  width: 100%;
+  min-height: 2.2rem;
+  border: 1px solid var(--ifm-color-emphasis-400);
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--ifm-background-color);
+}
+
+.queueCell {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  padding: 0.35rem 0.4rem;
+  border-left: 1px solid var(--ifm-color-emphasis-300);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.95rem;
+}
+
+.queueCell:first-child {
+  border-left: none;
+}
+
+.queueFrontCell {
+  background: var(--ifm-color-emphasis-100);
+  font-weight: 600;
+  box-shadow: inset 2px 0 0 var(--ifm-color-primary);
+}
+
+.queueHotCell {
+  outline: 2px solid var(--ifm-color-primary);
+  outline-offset: -2px;
+}
+
+.queueEnds {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  color: var(--ifm-color-emphasis-700);
+}
+
+.queueEndsFront {
+  font-weight: 600;
+  color: var(--ifm-color-primary);
+}
+
+.queueEmpty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 14rem;
+  min-height: 2.2rem;
+  border: 1px dashed var(--ifm-color-emphasis-400);
+  border-radius: 4px;
+  font-size: 0.8rem;
+  color: var(--ifm-color-emphasis-600);
+}

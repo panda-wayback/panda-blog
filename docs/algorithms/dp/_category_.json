@@ -1,4 +1,8 @@
 {
-  "label": "动态规划入门",
-  "position": 5
+  "label": "动态规划",
+  "position": 5,
+  "link": {
+    "type": "doc",
+    "id": "algorithms/dp/overview"
+  }
 }

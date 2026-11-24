@@ -1,0 +1,97 @@
+---
+sidebar_position: 2
+sidebar_label: 约瑟夫环
+description: 围成圈报数，数到 m 出列；用队列模拟「出队再入队」。
+---
+
+# 约瑟夫环
+
+import {
+  AlgoDiagram,
+  AlgoDiagramArrow,
+  AlgoDiagramRow,
+  QueuePanel,
+} from '@site/src/components/AlgoDiagram';
+
+沿用[队列](./index.mdx)的 FIFO：没被淘汰的人从队首出来，再排到队尾，相当于圈里往后站。
+
+## 问题
+
+$n$ 个人编号 $1\sim n$ 围成一圈，从 $1$ 开始报数，报到 $m$ 的人出列，下一个人再从 $1$ 报。  
+求最后剩下的人的编号。
+
+## 输入
+
+```
+5 2
+```
+
+含义：$n=5$，$m=2$。
+
+## 输出
+
+```
+3
+```
+
+出列顺序可以是 $2,4,1,5$，最后剩 $3$。
+
+## 解题
+
+把 $1..n$ 依次入队。每一轮：
+
+1. 把队首出队再入队，重复 $m-1$ 次（这些人活过本轮报数）  
+2. 再出队一次 → 报到 $m$，淘汰（不再入队）
+
+直到队里只剩一人。
+
+$n=5,m=2$ 开头几步：
+
+<AlgoDiagram caption="第一次淘汰：1 活过（去队尾），2 出列">
+  <AlgoDiagramRow>
+    <QueuePanel step={1} title="初始" items={[1, 2, 3, 4, 5]} />
+    <AlgoDiagramArrow />
+    <QueuePanel
+      step={2}
+      title="1 去队尾"
+      action="enqueue"
+      actionLabel="再入"
+      items={[2, 3, 4, 5, 1]}
+      hotIndex={4}
+      note="相当于跳过 1"
+    />
+  </AlgoDiagramRow>
+</AlgoDiagram>
+
+<AlgoDiagram caption="接着出队 2（淘汰），队列剩 3,4,5,1">
+  <AlgoDiagramRow>
+    <QueuePanel
+      step={3}
+      title="淘汰 2"
+      action="dequeue"
+      actionLabel="出列"
+      items={[3, 4, 5, 1]}
+      hotIndex={0}
+      note="下一轮从 3 接着报"
+    />
+  </AlgoDiagramRow>
+</AlgoDiagram>
+
+继续同样规则，直到只剩一个编号。
+
+## 实现
+
+```cpp
+int josephus(int n, int m) {
+  queue<int> q;
+  for (int i = 1; i <= n; ++i) q.push(i);
+  while (q.size() > 1) {
+    for (int k = 1; k < m; ++k) {
+      q.push(q.front());
+      q.pop();
+    }
+    q.pop();  // 报到 m，出列
+  }
+  return q.front();
+}
+```

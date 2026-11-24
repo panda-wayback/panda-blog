@@ -1,0 +1,76 @@
+---
+sidebar_position: 2
+sidebar_label: 括号匹配
+description: 判断括号串是否合法；练习用栈处理「等待匹配」的左括号。
+---
+
+# 括号匹配
+
+import {
+  AlgoDiagram,
+  AlgoDiagramArrow,
+  AlgoDiagramRow,
+  StackPanel,
+} from '@site/src/components/AlgoDiagram';
+
+沿用[栈](./index.mdx)的 LIFO：后出现的左括号，应先被右括号配上。
+
+## 问题
+
+给定只含 `(` 与 `)` 的字符串，判断是否合法：每个右括号都能配上一个尚未匹配的左括号，且最后没有多余左括号。
+
+## 输入
+
+```
+(()())
+```
+
+## 输出
+
+```
+Yes
+```
+
+再例：输入 `(()` 应输出 `No`。
+
+## 解题
+
+从左到右扫；`(` → push，`)` → 必须从栈顶 pop。
+
+<AlgoDiagram caption="扫描 (()())：↓ 压入左括号，↑ 用右括号消掉栈顶">
+  <AlgoDiagramRow>
+    <StackPanel step={1} title="(" action="push" actionLabel="压入" items={['(']} hotIndex={0} />
+    <AlgoDiagramArrow />
+    <StackPanel step={2} title="(" action="push" actionLabel="再压" items={['(', '(']} hotIndex={1} />
+    <AlgoDiagramArrow />
+    <StackPanel step={3} title=")" action="pop" actionLabel="消去" items={['(']} hotIndex={0} />
+  </AlgoDiagramRow>
+</AlgoDiagram>
+
+<AlgoDiagram caption="后半段同样：压 → 消 → 消，最终空栈">
+  <AlgoDiagramRow>
+    <StackPanel step={4} title="(" action="push" actionLabel="压入" items={['(', '(']} hotIndex={1} />
+    <AlgoDiagramArrow />
+    <StackPanel step={5} title=")" action="pop" actionLabel="消去" items={['(']} hotIndex={0} />
+    <AlgoDiagramArrow />
+    <StackPanel step={6} title=")" action="pop" actionLabel="消去" items={[]} note="空 → Yes" />
+  </AlgoDiagramRow>
+</AlgoDiagram>
+
+中途 `)` 时已是空栈，或结束时栈非空 → `No`。
+
+## 实现
+
+```cpp
+bool ok(const string& s) {
+  vector<char> st;
+  for (char c : s) {
+    if (c == '(') st.push_back(c);
+    else {
+      if (st.empty()) return false;
+      st.pop_back();
+    }
+  }
+  return st.empty();
+}
+```

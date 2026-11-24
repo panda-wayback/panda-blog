@@ -1,0 +1,141 @@
+---
+sidebar_position: 1
+sidebar_label: 概念
+---
+
+# 递归
+
+import DocCardList from '@theme/DocCardList';
+import {
+  AlgoDiagram,
+  AlgoDiagramArrow,
+  AlgoDiagramRow,
+  StackPanel,
+} from '@site/src/components/AlgoDiagram';
+
+## 简述
+
+大问题能拆成更小的同类问题时，用「缩小再拼回来」求答案。
+
+## 概念
+
+递归定清两件事即可（相对 [枚举](../enumerate/index.mdx)：枚举横着试，递归纵着拆）：
+
+| 要素 | 含义 |
+|------|------|
+| 终止 | 小到何时能直接答 |
+| 缩小 | 如何变成更小的同类问题，再拼回本层答案 |
+
+只想**这一层**怎么拆/拼，不必在脑子里一次展开整棵树。
+
+以「求 $1+\cdots+n$」为例：$sum(n)=sum(n-1)+n$，终止 $n=0\to 0$。  
+调用时一层压一层（像栈），返回时再一层层加上去：
+
+<AlgoDiagram caption="调用深入：每一层在等更小的 sum（上方是较新的调用）">
+  <AlgoDiagramRow>
+    <StackPanel
+      step={1}
+      title="进入 sum(3)"
+      action="push"
+      actionLabel="等待"
+      items={['sum(3)']}
+      hotIndex={0}
+      note="要算 sum(2)+3"
+    />
+    <AlgoDiagramArrow />
+    <StackPanel
+      step={2}
+      title="再进 sum(2)"
+      action="push"
+      actionLabel="等待"
+      items={['sum(3)', 'sum(2)']}
+      hotIndex={1}
+      note="要算 sum(1)+2"
+    />
+    <AlgoDiagramArrow />
+    <StackPanel
+      step={3}
+      title="到 sum(0)"
+      action="push"
+      actionLabel="终止"
+      items={['sum(3)', 'sum(2)', 'sum(1)', 'sum(0)']}
+      hotIndex={3}
+      note="直接返回 0"
+    />
+  </AlgoDiagramRow>
+</AlgoDiagram>
+
+<AlgoDiagram caption="返回拼回：从终止往上加">
+  <AlgoDiagramRow>
+    <StackPanel
+      step={4}
+      title="回到 sum(1)"
+      action="pop"
+      actionLabel="0+1"
+      items={['sum(3)', 'sum(2)', 'sum(1)']}
+      hotIndex={2}
+      note="得到 1"
+    />
+    <AlgoDiagramArrow />
+    <StackPanel
+      step={5}
+      title="回到 sum(2)"
+      action="pop"
+      actionLabel="1+2"
+      items={['sum(3)', 'sum(2)']}
+      hotIndex={1}
+      note="得到 3"
+    />
+    <AlgoDiagramArrow />
+    <StackPanel
+      step={6}
+      title="回到 sum(3)"
+      action="pop"
+      actionLabel="3+3"
+      items={['sum(3)']}
+      hotIndex={0}
+      note="得到 6"
+    />
+  </AlgoDiagramRow>
+</AlgoDiagram>
+
+深度 $O(n)$；$n$ 很大时栈可能不够。子问题大量重复 → 记忆化 / DP。
+
+## 实现
+
+```cpp
+int sum(int n) {
+  if (n == 0) return 0;       // 终止
+  return sum(n - 1) + n;      // 缩小并拼回
+}
+```
+
+## 教具题
+
+### 问题
+
+给定非负整数 $n$，求 $1+2+\cdots+n$（$n=0$ 时为 $0$）。
+
+### 输入
+
+```
+5
+```
+
+### 输出
+
+```
+15
+```
+
+对照上面的逻辑：$sum(5)=sum(4)+5=\cdots=15$。
+
+## 例题
+
+下面练习「换问题后，终止与缩小怎么写」。侧栏展开「递归」也可进入。
+
+<DocCardList />
+
+## 参考文献
+
+1. [OI Wiki · 递归 & 分治](https://oi-wiki.org/basic/divide-and-conquer/)

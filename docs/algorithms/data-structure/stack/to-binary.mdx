@@ -1,0 +1,81 @@
+---
+sidebar_position: 4
+sidebar_label: 转二进制
+description: 用栈存余数，把十进制正整数转成二进制串。
+---
+
+# 转二进制
+
+import {
+  AlgoDiagram,
+  AlgoDiagramArrow,
+  AlgoDiagramRow,
+  StackPanel,
+} from '@site/src/components/AlgoDiagram';
+
+沿用[栈](./index.mdx)：先算出来的余数后输出——正好 LIFO。
+
+## 问题
+
+给定正整数 $n$，输出它的二进制表示（不含前导零）。
+
+## 输入
+
+```
+13
+```
+
+## 输出
+
+```
+1101
+```
+
+因为 $13=8+4+1=1101_2$。
+
+## 解题
+
+反复 $n\%2$ 得到余数，$n\leftarrow\lfloor n/2\rfloor$，直到 $n=0$。  
+余数是**从低位到高位**产生的；要按高位在前输出，就先全部 push，再依次 pop。
+
+$n=13$：
+
+| $n$ | $n\%2$ | 之后 $n$ |
+|-----|--------|----------|
+| $13$ | $1$ | $6$ |
+| $6$ | $0$ | $3$ |
+| $3$ | $1$ | $1$ |
+| $1$ | $1$ | $0$ |
+
+栈里从底到顶是 $1,0,1,1$；弹出顺序 $1,1,0,1$ → `1101`。
+
+<AlgoDiagram caption="余数依次入栈（上方为后算的余数）">
+  <AlgoDiagramRow>
+    <StackPanel step={1} title="13%2" action="push" actionLabel="余 1" items={[1]} hotIndex={0} />
+    <AlgoDiagramArrow />
+    <StackPanel step={2} title="6%2" action="push" actionLabel="余 0" items={[1, 0]} hotIndex={1} />
+    <AlgoDiagramArrow />
+    <StackPanel step={3} title="3%2" action="push" actionLabel="余 1" items={[1, 0, 1]} hotIndex={2} />
+    <AlgoDiagramArrow />
+    <StackPanel step={4} title="1%2" action="push" actionLabel="余 1" items={[1, 0, 1, 1]} hotIndex={3} note="再依次弹出" />
+  </AlgoDiagramRow>
+</AlgoDiagram>
+
+## 实现
+
+```cpp
+string to_binary(int n) {
+  if (n == 0) return "0";
+  vector<char> st;
+  while (n > 0) {
+    st.push_back(char('0' + (n % 2)));
+    n /= 2;
+  }
+  string ans;
+  while (!st.empty()) {
+    ans.push_back(st.back());
+    st.pop_back();
+  }
+  return ans;
+}
+```

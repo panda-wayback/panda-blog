@@ -1,4 +1,8 @@
 {
   "label": "基础",
-  "position": 2
+  "position": 2,
+  "link": {
+    "type": "doc",
+    "id": "algorithms/basics/overview"
+  }
 }

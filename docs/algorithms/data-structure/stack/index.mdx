@@ -1,0 +1,164 @@
+---
+sidebar_position: 1
+sidebar_label: 概念
+---
+
+# 栈
+
+import DocCardList from '@theme/DocCardList';
+import {
+  AlgoDiagram,
+  AlgoDiagramArrow,
+  AlgoDiagramRow,
+  StackPanel,
+} from '@site/src/components/AlgoDiagram';
+
+## 简述
+
+需要「后放进去的先拿出来」时用栈：只在同一端插入和删除。
+
+## 概念
+
+栈遵守 **LIFO（后进先出）**：唯一出口叫**栈顶**（图中上方）；另一端叫**栈底**（图中下方），最早放进去的在底，最后才能出来。
+
+| 操作 | 做什么 |
+|------|--------|
+| push | 从上方放入，新元素成为栈顶 |
+| pop | 从上方拿走当前栈顶 |
+| top | 只看栈顶，不拿走 |
+| 空栈 | 不能 pop / top |
+
+先建立空间感：左边是「顶 / 底」，高亮格是本帧刚动到的元素；`↓` 放入，`↑` 取出。
+
+### 放入：push
+
+空栈 → 放入 `1`（独自成栈）→ 再放入 `2`（压在 `1` **上面**，`1` 仍在底）。
+
+<AlgoDiagram caption="push：新东西永远从上面进；下面的元素被压住，不会动">
+  <AlgoDiagramRow>
+    <StackPanel
+      step={1}
+      title="空栈"
+      items={[]}
+      note="还什么都没有"
+    />
+    <AlgoDiagramArrow />
+    <StackPanel
+      step={2}
+      title="push 1"
+      action="push"
+      actionLabel="放入 1"
+      items={['1']}
+      hotIndex={0}
+      note="只有 1：既是底也是顶"
+    />
+    <AlgoDiagramArrow />
+    <StackPanel
+      step={3}
+      title="push 2"
+      action="push"
+      actionLabel="放入 2"
+      items={['1', '2']}
+      hotIndex={1}
+      note="2 在顶，1 被压在底"
+    />
+  </AlgoDiagramRow>
+</AlgoDiagram>
+
+### 查看与取出：top / pop
+
+先看栈顶 → **把 2 拿掉（2 在栈外）** → 再看新的栈顶。
+
+<AlgoDiagram caption="top 不改栈；pop 把最上面一格拿出去（虚线框 = 已离开）">
+  <AlgoDiagramRow>
+    <StackPanel
+      step={4}
+      title="top"
+      action="peek"
+      actionLabel="只看"
+      items={['1', '2']}
+      hotIndex={1}
+      note="看到的是顶上的 2"
+    />
+    <AlgoDiagramArrow />
+    <StackPanel
+      step={5}
+      title="pop"
+      action="pop"
+      actionLabel="拿走 2"
+      ejected={2}
+      ejectedLabel="已出栈"
+      items={['1']}
+      hotIndex={0}
+      note="2 在外面，栈里剩 1"
+    />
+    <AlgoDiagramArrow />
+    <StackPanel
+      step={6}
+      title="top"
+      action="peek"
+      actionLabel="只看"
+      items={['1']}
+      hotIndex={0}
+      note="现在顶是 1"
+    />
+  </AlgoDiagramRow>
+</AlgoDiagram>
+
+要点：后放的 `2` 先被看到、先离开；`1` 一直在底下等。单次操作 $O(1)$。
+
+## 实现
+
+数组模拟（`tp` 为栈顶下标，空栈时 $tp=0$）：
+
+```cpp
+int st[N], tp = 0;
+void push(int x) { st[++tp] = x; }
+void pop() { --tp; }
+int top() { return st[tp]; }
+bool empty() { return tp == 0; }
+```
+
+## 教具题
+
+学会上面的图之后，用一道最小题把操作串起来。
+
+### 问题
+
+维护一个整数栈，处理若干操作并输出询问结果：
+
+- `push x`：把 $x$ 放到栈顶  
+- `pop`：弹出栈顶（保证栈非空）  
+- `top`：输出当前栈顶（保证栈非空）
+
+### 输入
+
+第一行操作数 $m$；随后 $m$ 行，每行一个操作。
+
+```
+5
+push 1
+push 2
+top
+pop
+top
+```
+
+### 输出
+
+```
+2
+1
+```
+
+对照前面的图：先压入 `1`、`2`，第一次 `top` 得到 `2`；`pop` 后第二次 `top` 得到 `1`。
+
+## 例题
+
+下面练习「什么时候该用栈、题目怎么落到 push/pop」。侧栏展开「栈」也可进入。
+
+<DocCardList />
+
+## 参考文献
+
+1. [OI Wiki · 栈](https://oi-wiki.org/ds/stack/)

@@ -1,0 +1,89 @@
+---
+sidebar_position: 3
+sidebar_label: 出栈序列
+description: 入栈顺序固定为 1…n，判断给出的出栈序列是否可能。
+---
+
+# 出栈序列
+
+import {
+  AlgoDiagram,
+  AlgoDiagramArrow,
+  AlgoDiagramRow,
+  StackPanel,
+} from '@site/src/components/AlgoDiagram';
+
+沿用[栈](./index.mdx)的 LIFO：按固定顺序入栈，中途可随时出栈，看目标序列能不能得到。
+
+## 问题
+
+入栈顺序固定为 $1,2,\ldots,n$（必须按此顺序 push）。  
+给定长度为 $n$ 的出栈序列，判断是否可能由合法的 push / pop 得到。
+
+## 输入
+
+第一行 $n$；第二行 $n$ 个互不相同的数，为 $1\sim n$ 的一个排列。
+
+```
+5
+1 2 3 4 5
+```
+
+## 输出
+
+```
+Yes
+```
+
+再例：输入
+
+```
+4
+2 4 3 1
+```
+
+应输出 `Yes`。若为 `3 1 2 4`（$n=4$）则 `No`（`1` 无法在 `3` 之后先于 `2` 出栈）。
+
+## 解题
+
+用栈模拟：按 $1..n$ 依次考虑入栈；栈顶等于当前要出的数就 pop，否则 push 下一个。  
+若该 push 时已经没有下一个，或最终栈非空 / 对不上 → 不合法。
+
+以出栈序列 `2 4 3 1` 为例：
+
+| 要出的 | 动作 | 栈（底→顶） |
+|--------|------|-------------|
+| $2$ | push 1，push 2，pop 2 | `[1]` |
+| $4$ | push 3，push 4，pop 4 | `[1,3]` |
+| $3$ | pop 3 | `[1]` |
+| $1$ | pop 1 | 空 |
+
+<AlgoDiagram caption="得到 2 的过程：先压 1、2，再弹出 2">
+  <AlgoDiagramRow>
+    <StackPanel step={1} title="push 1" action="push" actionLabel="入" items={[1]} hotIndex={0} />
+    <AlgoDiagramArrow />
+    <StackPanel step={2} title="push 2" action="push" actionLabel="入" items={[1, 2]} hotIndex={1} />
+    <AlgoDiagramArrow />
+    <StackPanel step={3} title="pop → 2" action="pop" actionLabel="出" items={[1]} hotIndex={0} note="对上 2" />
+  </AlgoDiagramRow>
+</AlgoDiagram>
+
+## 实现
+
+```cpp
+bool ok(const vector<int>& out) {
+  int n = (int)out.size(), nxt = 1, j = 0;
+  vector<int> st;
+  while (j < n) {
+    if (!st.empty() && st.back() == out[j]) {
+      st.pop_back();
+      ++j;
+    } else if (nxt <= n) {
+      st.push_back(nxt++);
+    } else {
+      return false;
+    }
+  }
+  return true;
+}
+```

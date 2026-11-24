@@ -1,4 +1,8 @@
 {
-  "label": "图论入门",
-  "position": 4
+  "label": "图论",
+  "position": 4,
+  "link": {
+    "type": "doc",
+    "id": "algorithms/graph/overview"
+  }
 }

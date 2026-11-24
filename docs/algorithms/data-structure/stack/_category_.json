@@ -1,0 +1,8 @@
+{
+  "label": "栈",
+  "position": 2,
+  "link": {
+    "type": "doc",
+    "id": "algorithms/data-structure/stack/index"
+  }
+}

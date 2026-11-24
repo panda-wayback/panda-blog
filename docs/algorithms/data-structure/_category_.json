@@ -1,4 +1,8 @@
 {
   "label": "数据结构",
-  "position": 3
+  "position": 3,
+  "link": {
+    "type": "doc",
+    "id": "algorithms/data-structure/overview"
+  }
 }
